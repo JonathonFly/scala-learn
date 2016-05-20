@@ -3,9 +3,12 @@ package com.ideal.netcare.extractors
 /**
  * Created by syf on 2016/5/19.
  */
-case class User(firstName: String, lastName: String, score: Int)
+
 
 object ExtractorTest1 {
+
+  case class User(firstName: String, lastName: String, score: Int)
+
   def advance(xs: List[User]) = xs match {
     case User(_, _, score1) :: User(_, _, score2) :: _ => score1 - score2
     case _ => 0
@@ -116,7 +119,7 @@ object ExtractorTest5 {
   def main(args: Array[String]) {
     val user: User = new FreeUser("Josh", 100, 0.4)
     user match {
-      case freeUser @ changeToPro() => println(s"Hello Pro User $freeUser.")
+      case freeUser@changeToPro() => println(s"Hello Pro User $freeUser.")
       case _ => println(s"Hello Free User.")
     }
   }
