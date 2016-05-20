@@ -67,11 +67,57 @@ object ExtractorTest3 {
   }
 
   def main(args: Array[String]) {
-    val user:User=new FirstStudent("Jonathan",66,17)
+    val user: User = new FirstStudent("Jonathan", 66, 17)
     user match {
-      case FirstStudent(name,score,age)=>println(s"FirstStudent name = $name, score = $score, age = $age")
-      case SecondStudent(name, _)=>print(s"SecondStudent, Hello $name.")
+      case FirstStudent(name, score, age) => println(s"FirstStudent name = $name, score = $score, age = $age")
+      case SecondStudent(name, _) => print(s"SecondStudent, Hello $name.")
     }
   }
 
+}
+
+object ExtractorTest4 {
+  def main(args: Array[String]) {
+    val stream = 46 #:: 38 #:: 67 #:: 18 #:: Stream.empty
+
+
+    val result1 = stream match {
+      case first #:: second #:: _ => first + second
+      case _ => -1
+    }
+
+    println(result1)
+
+    val result2 = stream match {
+      case #::(first, #::(second, _)) => first + second
+      case _ => -1
+    }
+    println(result2)
+
+  }
+}
+
+object ExtractorTest5 {
+
+  trait User {
+    def name: String
+
+    def score: Int
+  }
+
+  class FreeUser(val name: String, val score: Int, val upgradeProbability: Double) extends User {
+    override def toString: String = "name = " + name + ", score = " + score
+  }
+
+  object changeToPro {
+    def unapply(user: FreeUser): Boolean = user.upgradeProbability > 0.5
+  }
+
+  def main(args: Array[String]) {
+    val user: User = new FreeUser("Josh", 100, 0.4)
+    user match {
+      case freeUser @ changeToPro() => println(s"Hello Pro User $freeUser.")
+      case _ => println(s"Hello Free User.")
+    }
+  }
 }
