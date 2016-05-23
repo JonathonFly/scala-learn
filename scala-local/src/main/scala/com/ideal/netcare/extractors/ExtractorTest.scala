@@ -80,27 +80,6 @@ object ExtractorTest3 {
 }
 
 object ExtractorTest4 {
-  def main(args: Array[String]) {
-    val stream = 46 #:: 38 #:: 67 #:: 18 #:: Stream.empty
-
-
-    val result1 = stream match {
-      case first #:: second #:: _ => first + second
-      case _ => -1
-    }
-
-    println(result1)
-
-    val result2 = stream match {
-      case #::(first, #::(second, _)) => first + second
-      case _ => -1
-    }
-    println(result2)
-
-  }
-}
-
-object ExtractorTest5 {
 
   trait User {
     def name: String
@@ -122,5 +101,92 @@ object ExtractorTest5 {
       case freeUser@changeToPro() => println(s"Hello Pro User $freeUser.")
       case _ => println(s"Hello Free User.")
     }
+  }
+}
+
+
+object ExtractorTest5 {
+  def main(args: Array[String]) {
+    val stream = 46 #:: 38 #:: 67 #:: 18 #:: Stream.empty
+
+
+    val result1 = stream match {
+      case first #:: second #:: _ => first + second
+      case _ => -1
+    }
+
+    println(result1)
+
+    val result2 = stream match {
+      case #::(first, #::(second, _)) => first + second
+      case _ => -1
+    }
+    println(result2)
+
+  }
+}
+
+object ExtractorTest6 {
+  def main(args: Array[String]) {
+    val xs = 3 :: 6 :: 12 :: Nil
+    val res = xs match {
+      case List(a, b) => a * b
+      case List(a, b, c) => a + b + c
+      case _ => 0
+    }
+    println(res)
+  }
+}
+
+object ExtractorTest7 {
+  def main(args: Array[String]) {
+    val xs = 3 :: 6 :: 12 :: 18 :: Nil
+    val res = xs match {
+      case List(a, b, _*) => a * b
+      case _ => 0
+    }
+    println(res)
+  }
+}
+
+object ExtractorTest8 {
+
+  object GivenNames {
+    def unapplySeq(name: String): Option[Seq[String]] = {
+      val names = name.trim.split(" ")
+      if (names.forall(_.isEmpty)) None
+      else Some(names)
+    }
+  }
+
+  def getFirstName(name: String) = name match {
+    case GivenNames(firstName, _*) => s"hello $firstName."
+    case _ => "please give a firstName"
+  }
+
+  def main(args: Array[String]) {
+    val list = List("Tom", "Johnny Bugger", "Little Ming")
+    list.map(getFirstName).foreach(println(_))
+  }
+}
+
+object ExtractorTest9 {
+
+  object names {
+    def unapplySeq(name: String): Option[(String,String,Seq[String])] = {
+      val names = name.trim.split(" ")
+      if(names.size<2) None
+      else Some((names.head,names.last,names.drop(1).dropRight(1).toList))
+    }
+  }
+
+  def getNames(name: String) = name match {
+    case names(firstName,lastName, _*) => s"hello $firstName...$lastName."
+    case _ => "please at least give a firstName and a lastName"
+  }
+
+  def main(args: Array[String]) {
+    val list = List("Tom", "Johnny Bugger", "Little Ming", "Little Sugar Free")
+    list.map(getNames).foreach(println(_))
   }
 }
