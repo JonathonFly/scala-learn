@@ -1,7 +1,5 @@
 package com.ideal.netcare.currying
 
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration
-
 /**
  * Created by syf on 2016/5/26.
  */
