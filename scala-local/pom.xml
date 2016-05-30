@@ -76,6 +76,20 @@
             <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- http://mvnrepository.com/artifact/joda-time/joda-time -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <!-- http://mvnrepository.com/artifact/org.joda/joda-convert -->
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-convert</artifactId>
+            <version>1.7</version>
+        </dependency>
     </dependencies>
 
   <build>
